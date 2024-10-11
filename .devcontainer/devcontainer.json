@@ -1,0 +1,36 @@
+{
+	"name": "R and Python Development Environment",
+	"image": "rocker/r-ver:4.3.1", // Use the rocker image for R
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"REditorSupport.r",
+				"ms-python.python",
+				"ms-toolsai.jupyter"
+			]
+		}
+	},
+	"settings": {
+		"r.rterm.linux": "/usr/local/bin/R",
+		"r.lsp.path": "/usr/local/lib/R/bin/R",
+		"python.defaultInterpreterPath": "/usr/local/bin/python"
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/python:1": {
+			"version": "3.10"
+		}
+	},
+	"postCreateCommand": "Rscript -e 'install.packages(c(\"tidyverse\", \"testthat\", \"devtools\"))'",
+	"remoteUser": "rstudio",
+	"mounts": [
+		"source=/path/on/host,target=/workspace,type=bind" // Mounts a workspace from your host system
+	],
+	"forwardPorts": [
+		8787
+	], // Forward RStudio port
+	"runArgs": [
+		"--cap-add=SYS_PTRACE",
+		"--security-opt",
+		"seccomp=unconfined"
+	]
+}
